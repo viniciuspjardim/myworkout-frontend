@@ -1,5 +1,13 @@
 <template>
   <q-page class="bg-grey-3 column">
+    <div
+      class="absolute-bottom-right q-pa-lg">
+      <q-btn
+        @click="addExercise()"
+        round
+        color="secondary"
+        icon="add" />
+    </div>
     <q-list
       class="bg-white"
       separator>
@@ -37,23 +45,23 @@
         </q-item-section>
       </q-item>
     </q-list>
-    <q-dialog v-model="editor.editing" persistent>
+    <q-dialog v-model="editor.open" persistent>
       <q-card style="min-width: 350px">
         <q-card-section>
           <div class="text-h6">Add / Edit Your Exercise</div>
         </q-card-section>
 
         <q-card-section>
-          <q-input dense v-model="editor.name" autofocus @keyup.enter="prompt = false" />
-          <q-input dense v-model="editor.sets" @keyup.enter="prompt = false" />
-          <q-input dense v-model="editor.reps" @keyup.enter="prompt = false" />
-          <q-input dense v-model="editor.weight" @keyup.enter="prompt = false" />
+          <q-input dense v-model="editor.data.name" autofocus @keyup.enter="prompt = false" />
+          <q-input dense v-model="editor.data.sets" @keyup.enter="prompt = false" />
+          <q-input dense v-model="editor.data.reps" @keyup.enter="prompt = false" />
+          <q-input dense v-model="editor.data.weight" @keyup.enter="prompt = false" />
         </q-card-section>
 
         <q-card-actions align="right" class="text-primary">
-          <q-btn flat label="Remove" @click="finishEditing('remove')" v-close-popup />
+          <q-btn v-if="!editor.adding" flat label="Remove" @click="finishEditing('remove')" v-close-popup />
           <q-btn flat label="Cancel" @click="finishEditing('cancel')" v-close-popup />
-          <q-btn flat label="Ok" @click="finishEditing('ok')" v-close-popup />
+          <q-btn flat label="Ok" @click="finishEditing('add/edit')" v-close-popup />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -65,12 +73,17 @@ export default {
   data() {
     return {
       editor: {
-          editing: false,
+          open: false,
+          // false is editing, true is adding
+          adding: false,
           editingIndex: null,
-          name: '',
-          sets: 3,
-          reps: 10,
-          weight: 5
+          data: {
+            name: '',
+            sets: 3,
+            reps: 10,
+            weight: 5,
+            done: false
+          }
       },
       exercises: [
         {
@@ -98,36 +111,42 @@ export default {
     }
   },
   methods: {
+    addExercise() {
+      this.editor.open = true
+      this.editor.adding = true
+      this.editor.data.name = 'Name'
+      this.editor.data.sets = 3
+      this.editor.data.reps = 10
+      this.editor.data.weight = 5
+      this.editor.data.done = false
+    },
     editExercise(index) {
       this.editor.editingIndex = index
-      this.editor.editing = true
-      const ex = this.exercises[this.editor.editingIndex]
-      this.editor.name = ex.name
-      this.editor.sets = ex.sets
-      this.editor.reps = ex.reps
-      this.editor.weight = ex.weight
+      this.editor.open = true
+      this.editor.data = { ...this.exercises[this.editor.editingIndex] }
+      this.editor.data.done = false
     },
     finishEditing(action) {
       switch(action) {
+        case 'add/edit':
+          if(this.editor.adding) {
+            this.exercises.push({ ...this.editor.data })
+          }
+          else {
+            this.$set(this.exercises, this.editor.editingIndex, { ...this.editor.data })
+          }
+          break
         case 'remove':
           this.exercises.splice(this.editor.editingIndex, 1)
           break
         case 'cancel':
           break
-        case 'ok':
-          const ex = this.exercises[this.editor.editingIndex]
-          ex.name = this.editor.name
-          ex.sets = this.editor.sets
-          ex.reps = this.editor.reps
-          ex.weight = this.editor.weight
-          ex.done = false
-          break
         default:
           console.log('Other')
       }
       this.editor.editingIndex = null
-      this.editor.editing = false
-      console.log(action)
+      this.editor.open = false
+      this.editor.adding = false
     },
     exerciseStr(index) {
       const ex = this.exercises[index]
