@@ -4,20 +4,24 @@
     :class="{ 'done bg-pink-1' : exercise.done }"
     clickable
     v-ripple>
+
     <q-item-section avatar>
       <q-checkbox
         v-model="exercise.done"
         class="no-pointer-events"
         color="primary" />
     </q-item-section>
+
     <q-item-section>
       <q-item-label>{{ exercise.name }}</q-item-label>
     </q-item-section>
+
     <q-item-section
       side>
       {{ exerciseStr }}
     </q-item-section>
-        <q-item-section
+
+    <q-item-section
       side>
       <q-btn
         @click.stop="1 + 1"
