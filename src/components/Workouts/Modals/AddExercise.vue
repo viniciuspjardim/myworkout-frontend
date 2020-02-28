@@ -19,8 +19,11 @@
 
       <q-card-section class="q-pt-none">
         <q-input
+          clearable
+          clear-icon="clear"
+          class="icon-grey-6"
           v-model="exercise.name"
-          :rules="[val => !!val || 'The exercise name']"
+          :rules="[val => !!val || 'The exercise name is required']"
           label="Exercise name" />
 
         <q-input
@@ -138,6 +141,7 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="sass" scoped>
+.icon-grey-6 /deep/ .q-icon
+  color: $grey-6
 </style>
