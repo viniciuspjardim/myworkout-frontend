@@ -1,27 +1,13 @@
+import { uid } from 'quasar'
+
 const state = {
   exercises: [
-    {
-      id: 1,
-      name: 'Run',
-      sets: 1,
-      reps: 15,
-      weight: 0,
-      done: false
-    },
     {
       id: 2,
       name: 'Leg press',
       sets: 4,
       reps: 15,
       weight: 40,
-      done: false
-    },
-    {
-      id: 3,
-      name: 'Bench press',
-      sets: 3,
-      reps: 10,
-      weight: 15,
       done: false
     }
   ]
@@ -37,11 +23,30 @@ const mutations = {
       return element.id === payload.id
     })
     Object.assign(exercise, payload.updates)
+  },
+  deleteExercise(state, id) {
+    const { exercises } = state
+    for(let i = 0; i < exercises.length; i++) {
+      if(exercises[i].id === id) {
+        exercises.splice(i, 1)
+        return
+      }
+    }
+  },
+  addExercise(state, exercise) {
+    exercise.id = uid()
+    state.exercises.push(exercise)
   }
 }
 const actions = {
   updateExercise({ commit },  payload) {
     commit('updateExercise', payload)
+  },
+  deleteExercise({ commit }, id) {
+    commit('deleteExercise', id)
+  },
+  addExercise({ commit }, exercise) {
+    commit('addExercise', exercise)
   }
 }
 

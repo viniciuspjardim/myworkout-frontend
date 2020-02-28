@@ -31,6 +31,17 @@
         color="primary"
         icon="edit" />
     </q-item-section>
+
+    <q-item-section
+      side>
+      <q-btn
+        @click.stop="promptToDelete"
+        flat
+        round
+        dense
+        color="primary"
+        icon="delete" />
+    </q-item-section>
   </q-item>
 </template>
 
@@ -46,7 +57,19 @@ export default {
     }
   },
   methods: {
-    ...mapActions('workouts', ['updateExercise'])
+    ...mapActions('workouts', ['updateExercise', 'deleteExercise']),
+
+    promptToDelete() {
+      this.$q.dialog({
+        title: 'Remove',
+        message: `Remove <b>${this.exercise.name}</b>?`,
+        cancel: true,
+        persistent: true,
+        html: true
+      }).onOk(() => {
+        this.deleteExercise(this.exercise.id)
+      })
+    }
   }
 }
 </script>

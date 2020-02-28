@@ -3,7 +3,7 @@
     <div
       class="absolute-bottom-right q-pa-lg">
       <q-btn
-        @click="1 + 1"
+        @click="addDialogOpen = true"
         round
         color="secondary"
         icon="add" />
@@ -18,6 +18,11 @@
         :exercise="exercise"
       ></exercise>
     </q-list>
+
+    <q-dialog v-model="addDialogOpen">
+      <add-exercise @onSubmit='addDialogOpen = false'></add-exercise>
+    </q-dialog>
+
   </q-page>
 </template>
 
@@ -25,11 +30,17 @@
 import { mapGetters } from 'vuex'
 
 export default {
+  data() {
+    return {
+      addDialogOpen: false
+    }
+  },
   computed: {
     ...mapGetters('workouts', ['exercises'])
   },
   components: {
-    'exercise' : require('components/Workouts/Exercise.vue').default
+    'exercise' : require('components/Workouts/Exercise.vue').default,
+    'add-exercise' : require('components/Workouts/Modals/AddExercise.vue').default
   }
 }
 </script>
