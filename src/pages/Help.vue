@@ -6,9 +6,3 @@
     <p>Test 123</p>
   </q-page>
 </template>
-
-<script>
-export default {
-
-}
-</script>

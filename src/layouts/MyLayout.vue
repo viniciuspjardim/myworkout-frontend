@@ -95,10 +95,9 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.header-image {
-  height: 100%;
-  z-index: -1;
-  opacity: 0.15;
-}
+<style lang="sass">
+.header-image
+  height: 100%
+  z-index: -1
+  opacity: 0.15
 </style>

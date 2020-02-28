@@ -45,11 +45,9 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.done {
-  .q-item__label {
-    text-decoration: line-through;
-    color: #bbb;
-  }
-}
+<style lang="sass">
+.done
+  .q-item__label
+    text-decoration: line-through
+    color: #bbb
 </style>
