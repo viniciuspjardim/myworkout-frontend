@@ -20,7 +20,7 @@
     </q-list>
 
     <q-dialog v-model="addDialogOpen">
-      <add-exercise @onSubmit='addDialogOpen = false'></add-exercise>
+      <add-exercise @onAddSubmit='addDialogOpen = false'></add-exercise>
     </q-dialog>
 
   </q-page>

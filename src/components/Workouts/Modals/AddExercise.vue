@@ -3,7 +3,7 @@
     <modal-header>Add Exercise</modal-header>
 
     <exercise-form
-      @onSubmit="onSubmit()"
+      @onSubmit="onAddSubmit()"
       :exercise="exercise"
       :btnText="'Add'">
     </exercise-form>
@@ -27,9 +27,9 @@ export default {
   },
   methods: {
     ...mapActions('workouts', ['addExercise']),
-    onSubmit() {
+    onAddSubmit() {
       this.addExercise(this.exercise)
-      this.$emit('onSubmit')
+      this.$emit('onAddSubmit')
     }
   },
   components: {

@@ -24,7 +24,7 @@
     <q-item-section
       side>
       <q-btn
-        @click.stop="1 + 1"
+        @click.stop="editDialogOpen = true"
         flat
         round
         dense
@@ -42,6 +42,14 @@
         color="primary"
         icon="delete" />
     </q-item-section>
+
+    <q-dialog v-model="editDialogOpen">
+      <edit-exercise
+        :exercise="exercise"
+        @onEditSubmit="editDialogOpen = false">
+      </edit-exercise>
+    </q-dialog>
+
   </q-item>
 </template>
 
@@ -50,6 +58,11 @@ import { mapActions } from 'vuex'
 
 export default {
   props: ['exercise'],
+  data() {
+    return {
+      editDialogOpen: false
+    }
+  },
   computed: {
     exerciseStr() {
       const ex = this.exercise
@@ -70,6 +83,9 @@ export default {
         this.deleteExercise(this.exercise.id)
       })
     }
+  },
+  components: {
+    'edit-exercise' : require('components/Workouts/Modals/EditExercise.vue').default
   }
 }
 </script>
