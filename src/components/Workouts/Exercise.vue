@@ -16,10 +16,31 @@
       <q-item-label>{{ exercise.name }}</q-item-label>
     </q-item-section>
 
-    <q-item-section
-      side>
-      {{ exerciseStr }}
+    <q-item-section side>
+      <q-badge color="secondary">SETS</q-badge>
     </q-item-section>
+
+    <q-item-section>
+      <q-item-label class="pad-left">{{ exercise.sets }}</q-item-label>
+    </q-item-section>
+
+    <q-item-section side>
+      <q-badge color="secondary">REPS</q-badge>
+    </q-item-section>
+
+    <q-item-section>
+      <q-item-label class="pad-left">{{ exercise.reps }}</q-item-label>
+    </q-item-section>
+
+    <q-item-section side>
+      <q-badge color="secondary">WEIGHT</q-badge>
+    </q-item-section>
+
+    <q-item-section>
+      <q-item-label class="pad-left">{{ exercise.weight }}</q-item-label>
+    </q-item-section>
+
+    <q-separator vertical />
 
     <q-item-section
       side>
@@ -63,12 +84,6 @@ export default {
       editDialogOpen: false
     }
   },
-  computed: {
-    exerciseStr() {
-      const ex = this.exercise
-      return `${ex.sets}x${ex.reps} -> ${ex.weight}`
-    }
-  },
   methods: {
     ...mapActions('workouts', ['updateExercise', 'deleteExercise']),
 
@@ -89,3 +104,8 @@ export default {
   }
 }
 </script>
+
+<style lang="sass">
+.pad-left
+  padding-left: 0.8em
+</style>
