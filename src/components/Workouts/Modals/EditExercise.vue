@@ -23,10 +23,7 @@ export default {
   methods: {
     ...mapActions('workouts', ['updateExercise']),
     onEditSubmit() {
-      this.updateExercise({
-        id: this.exerciseForm.id,
-        updates: this.exerciseForm
-      })
+      this.updateExercise(this.exerciseForm)
       this.$emit('onEditSubmit')
     }
   },

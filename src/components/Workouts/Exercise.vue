@@ -1,6 +1,6 @@
 <template>
   <q-item
-    @click="updateExercise({ id: exercise.id, updates: { done: !exercise.done } })"
+    @click="exerciseDone"
     :class="{ 'done bg-pink-1' : exercise.done }"
     clickable
     v-ripple>
@@ -86,7 +86,10 @@ export default {
   },
   methods: {
     ...mapActions('workouts', ['updateExercise', 'deleteExercise']),
-
+    exerciseDone() {
+      this.exercise.done = !this.exercise.done
+      this.updateExercise(this.exercise)
+    },
     promptToDelete() {
       this.$q.dialog({
         title: 'Remove',

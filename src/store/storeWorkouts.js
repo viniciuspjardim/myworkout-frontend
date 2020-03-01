@@ -1,4 +1,3 @@
-import { uid } from 'quasar'
 import axios from 'axios'
 
 axios.defaults.baseURL = 'http://my-workout.test/api/users/1'
@@ -15,11 +14,14 @@ const mutations = {
   setExercises(state, exercises) {
     state.exercises = exercises
   },
-  updateExercise(state, payload) {
-    const exercise = state.exercises.find((element) => {
-      return element.id === payload.id
+  addExercise(state, exercise) {
+    state.exercises.push(exercise)
+  },
+  updateExercise(state, exercise) {
+    const ex = state.exercises.find((element) => {
+      return element.id === exercise.id
     })
-    Object.assign(exercise, payload.updates)
+    Object.assign(ex, exercise)
   },
   deleteExercise(state, id) {
     const { exercises } = state
@@ -29,10 +31,6 @@ const mutations = {
         return
       }
     }
-  },
-  addExercise(state, exercise) {
-    exercise.id = uid()
-    state.exercises.push(exercise)
   }
 }
 const actions = {
@@ -45,14 +43,34 @@ const actions = {
       console.log(err)
     }
   },
-  updateExercise({ commit },  payload) {
-    commit('updateExercise', payload)
+  async addExercise({ commit }, exercise) {
+    try {
+      exercise.user_id = 1
+      const res = await axios.post('/workouts', exercise)
+      commit('addExercise', res.data)
+    }
+    catch(err) {
+      console.log(err)
+    }
   },
-  deleteExercise({ commit }, id) {
-    commit('deleteExercise', id)
+  async updateExercise({ commit }, exercise) {
+    try {
+      exercise.user_id = 1
+      const res = await axios.put(`/workouts/${exercise.id}`, exercise)
+      commit('updateExercise', res.data)
+    }
+    catch(err) {
+      console.log(err)
+    }
   },
-  addExercise({ commit }, exercise) {
-    commit('addExercise', exercise)
+  async deleteExercise({ commit }, id) {
+    try {
+      await axios.delete(`/workouts/${id}`)
+      commit('deleteExercise', id)
+    }
+    catch(err) {
+      console.log(err)
+    }
   }
 }
 
