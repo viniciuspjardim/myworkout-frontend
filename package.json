@@ -1,7 +1,7 @@
 {
-  "name": "my-workout",
+  "name": "myworkout-frontend",
   "version": "0.1.0",
-  "description": "Keep track of your workout easily and simply",
+  "description": "Keep track of your workouts in a simple way",
   "productName": "My Workout",
   "cordovaId": "com.gmail.vpjardimdev.myworkout",
   "capacitorId": "",
