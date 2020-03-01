@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   data() {
@@ -38,9 +38,15 @@ export default {
   computed: {
     ...mapGetters('workouts', ['exercises'])
   },
+  methods: {
+    ...mapActions('workouts', ['fetchExercises'])
+  },
   components: {
     'exercise' : require('components/Workouts/Exercise.vue').default,
     'add-exercise' : require('components/Workouts/Modals/AddExercise.vue').default
+  },
+  created() {
+    this.fetchExercises()
   }
 }
 </script>

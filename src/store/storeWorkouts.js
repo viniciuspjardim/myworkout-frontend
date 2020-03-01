@@ -1,16 +1,10 @@
 import { uid } from 'quasar'
+import axios from 'axios'
+
+axios.defaults.baseURL = 'http://my-workout.test/api/users/1'
 
 const state = {
-  exercises: [
-    {
-      id: 2,
-      name: 'Leg press',
-      sets: 4,
-      reps: 15,
-      weight: 40,
-      done: false
-    }
-  ]
+  exercises: []
 }
 const getters = {
   exercises: (state) => {
@@ -18,6 +12,9 @@ const getters = {
   }
 }
 const mutations = {
+  setExercises(state, exercises) {
+    state.exercises = exercises
+  },
   updateExercise(state, payload) {
     const exercise = state.exercises.find((element) => {
       return element.id === payload.id
@@ -39,6 +36,15 @@ const mutations = {
   }
 }
 const actions = {
+  async fetchExercises({ commit }) {
+    try {
+      const res = await axios.get('/workouts')
+      commit('setExercises', res.data)
+    }
+    catch(err) {
+      console.log(err)
+    }
+  },
   updateExercise({ commit },  payload) {
     commit('updateExercise', payload)
   },
