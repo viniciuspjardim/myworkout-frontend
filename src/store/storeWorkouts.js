@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-axios.defaults.baseURL = 'http://my-workout.test/api/users/1'
+axios.defaults.baseURL = 'http://my-workout.test/api'
 
 const state = {
   exercises: []
